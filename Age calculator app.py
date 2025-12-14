@@ -1,31 +1,32 @@
-from tkinter import *
-from tkinter import messagebox 
+import tkinter as tk
+from datetime import date
+from tkinter import messagebox
 
-def validate_input():
-    try:
-        age = int(age_entry.get())
-        if 0 < age < 150:
-            messagebox.showinfo("Success", f"You are {age} years old.")
-        else:
-            messagebox.showerror("Error", "Please enter a valid age (1-149).")
-            
-    except ValueError:
-        messagebox.showerror("Error", "Input must be a whole number.")
-    except Exception:
-        messagebox.showerror("Error", "An unexpected error occurred.")
+def calculate_age():
+    name = e1.get()
+    day = int(e2.get())
+    month = int(e3.get())
+    year = int(e4.get())
+    today = date.today()
+    birth_date = date(year, month, day)
+    age = today.year - birth_date.year
 
-root = Tk()
-root.title('Age Input')
-root.geometry('250x120')
-frame = Frame(root, height=80, width= 230)
+root = tk.Tk()
+root.title("Age Calculator")
+root.geometry("400x400")
+fields = ["Name:", "Day:", "Month:", "Year:"]
+entries = []
 
-lbl = Label(frame, text = "Enter Your Age:")
-age_entry = Entry(frame, width=5)
-btn = Button(root, text = "Submit", command=validate_input, bg="red", fg="white")
+for i, text in enumerate(fields):
+    tk.Label(root, text=text).grid(row=i, column=0, padx=5, pady=5, sticky="e")
+    entry = tk.Entry(root, width=15)
+    entry.grid(row=i, column=1, padx=5, pady=5, sticky="w")
+    entries.append(entry)
 
-frame.place(x=10, y=10)
-lbl.place(x=10, y=10)
-age_entry.place(x=120, y=10)
-btn.place(x=100, y=70)
+e1, e2, e3, e4 = entries 
+tk.Button(root, text="Calculate Age", command=calculate_age).grid(
+    row=len(fields), column=0, columnspan=2, pady=15)
+result = tk.Label(root, text="Enter.")
+result.grid(row=len(fields) + 1, column=0, columnspan=2, pady=5)
 
 root.mainloop()
